@@ -25,7 +25,9 @@ public final class InternalNode implements Node{
             InternalNode node = new InternalNode(children);
             return node;
         }
-        else throw new NullPointerException("List<Node> is null in method newInternal");
+        else {
+        	throw new NullPointerException("List<Node> is null in method newInternal");
+        }
     }
 
     @Override

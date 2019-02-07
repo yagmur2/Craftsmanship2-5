@@ -5,7 +5,7 @@ import java.util.*;
 final class SymbolSequence {
 	
 	private final List<Symbol> PRODUCTION;
-	static final SymbolSequence EPSILON = new SymbolSequence(null);
+	static final SymbolSequence EPSILON = new SymbolSequence(new ArrayList<Symbol>());
 	
 	//Private constructor, sets production
 	private SymbolSequence(List<Symbol> PRODUCTION) {
@@ -13,21 +13,29 @@ final class SymbolSequence {
 		}
 	
 	//Build method using a List<Symbol> to create a SymbolSequence
-	public static final SymbolSequence build(List<Symbol> PRODUCTION) {
+	static final SymbolSequence build(List<Symbol> PRODUCTION) {
 		if (PRODUCTION != null) {
 			return new SymbolSequence(PRODUCTION);
 		}
-		else throw new NullPointerException("Null argument in method build()");
+		else {
+			throw new NullPointerException("Null argument in method build()");
+			}
 		}
 	
 	//Build method using a variable number of symbols to create a SymbolSequence
-	public static final SymbolSequence build(Symbol...symbols) {
-		List<Symbol> list = Arrays.asList(symbols);
-		return new SymbolSequence(list);
+	static final SymbolSequence build(Symbol...symbols) {
+		if(symbols != null) {
+			List<Symbol> list = Arrays.asList(symbols);
+			return new SymbolSequence(list);
 		}
+		else {
+			throw new NullPointerException("Null argument in method build()");
+		}
+	}
 	
+	@Override
 	//SymbolSequence delegates toString method to its production
-	public String toString(List<Symbol> PRODUCTION) {
+	public String toString() {
 		return PRODUCTION.toString();
 		}
 	
@@ -41,7 +49,6 @@ final class SymbolSequence {
 		
 		List<Token> remainder = input;
 		List<Node> children = new ArrayList<Node>();
-		int lastIndex = children.size() - 1; //end of the children list
 		
 		for(Symbol symbol : this.PRODUCTION) {
 			//if the parse is successful, adds node to children list and adjusts remainder
@@ -50,9 +57,11 @@ final class SymbolSequence {
 				remainder = symbol.parse(remainder).getRemainder();
 			}
 			//If the parse is unsuccessful, returns FAILURE
-			else return symbol.parse(remainder);
+			else {
+				return symbol.parse(remainder);
+				}
 			}
-		return ParseState.build(children.get(lastIndex), remainder);
+		return ParseState.build(InternalNode.build(children), remainder);
 		}
 	
 }

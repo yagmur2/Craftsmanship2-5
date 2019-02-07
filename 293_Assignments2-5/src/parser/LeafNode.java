@@ -24,7 +24,9 @@ public final class LeafNode implements Node{
             LeafNode leaf = new LeafNode(token);
             return leaf;
         }
-        else throw new NullPointerException("Token value is null in method newLeaf");
+        else {
+        	throw new NullPointerException("Token value is null in method newLeaf");
+        	}
     }
     
     @Override
