@@ -14,13 +14,12 @@ final class SymbolSequence {
 	
 	//Build method using a List<Symbol> to create a SymbolSequence
 	static final SymbolSequence build(List<Symbol> PRODUCTION) {
-		if (PRODUCTION != null) {
-			return new SymbolSequence(PRODUCTION);
-		}
-		else {
+		if (PRODUCTION == null) {
 			throw new NullPointerException("Null argument in method build()");
-			}
 		}
+		//else
+		return new SymbolSequence(PRODUCTION);
+	}
 	
 	//Build method using a variable number of symbols to create a SymbolSequence
 	static final SymbolSequence build(Symbol...symbols) {

@@ -21,19 +21,22 @@ public final class LeafNode implements Node{
     //Builds a new leaf with the given Token; throws an exception if value is null.
     public static final LeafNode build(Token token){
         if (token != null) {
-            LeafNode leaf = new LeafNode(token);
-            return leaf;
+            return new LeafNode(token);
         }
         else {
         	throw new NullPointerException("Token value is null in method newLeaf");
         	}
     }
     
+    public String toString(){
+    	return token.toString();
+    }
+    
     @Override
-    //TODO: returns a list containing the LeafNode's Token as its single element.
+    //returns a list containing the LeafNode's Token as its single element.
 	public final List<Token> toList() {
-    	List<Token> list = new ArrayList<Token>();
-    	list.add(this.getToken());
+    	List<Token> list = new LinkedList<Token>();
+    	list.add(token);
     	return list;
 	}
 
