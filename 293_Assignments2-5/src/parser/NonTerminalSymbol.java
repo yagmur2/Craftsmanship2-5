@@ -27,26 +27,26 @@ enum NonTerminalSymbol implements  Symbol {
 // The ParseState�s success will be true if the parsing process was successful and false otherwise.
     @Override
     public ParseState parse(List<Token> input){
-        if (input == null){
-            throw new NullPointerException("Input is NULL for NON terminal Parse");
-        }
+    	
+	    Objects.requireNonNull(input, "Null input for parse method in NonTerminalSymbol");
+	    
         List<SymbolSequence> tablelookup = Table.get(this);
             for(SymbolSequence have: tablelookup){
                 ParseState tempParse = have.match(input);
-            if (tempParse.isSuccess()) {
-                return tempParse;
+                if (tempParse.isSuccess()) {
+                	return tempParse;
                 //  A non-terminal parses its input by going through its productions in the order
                 // given by the table and attempting to match them to the input
-            }
+                }
             }
 
         return ParseState.FAILURE;
     }
+    
     static final Optional<Node> parseInput(List<Token> input){
-        Optional<Node> rootNode;
-        if(input == null){
-            throw new NullPointerException("The input for Non terminal optaional parser is NULL");
-        }
+    	
+        Objects.requireNonNull(input, "Null input for parseInput method in NonTerminalSymbol");
+        
         //which attempts to parse the input with an EXPRESSION, and returns the root node if the parsing process is successful and has not remainder,
         // and an empty Optional otherwise.
         // It also throws a NullPointerException with an appropriate error message if the input is null.
@@ -55,10 +55,7 @@ enum NonTerminalSymbol implements  Symbol {
         if(result.isSuccess() && result.hasNoRemainder()){
                 return  Optional.of(result.getNode());
         }
-        else {
-            return Optional.empty();
-        }
-        //return optinal empty
+        return Optional.empty();
     }
 
 

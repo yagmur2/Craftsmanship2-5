@@ -4,8 +4,6 @@ import java.util.*;
 
 public final class LeafNode implements Node{
 
-    //TODO: "A LeafNode delegates "toString" to its Token. (find out what this means?)
-
     private final Token token;
     
     //Getter method for Token; returns its value.
@@ -20,12 +18,8 @@ public final class LeafNode implements Node{
 
     //Builds a new leaf with the given Token; throws an exception if value is null.
     public static final LeafNode build(Token token){
-        if (token != null) {
-            return new LeafNode(token);
-        }
-        else {
-        	throw new NullPointerException("Token value is null in method newLeaf");
-        	}
+    	Objects.requireNonNull(token, "Token value is null in LeafNode builder");
+        return new LeafNode(token);
     }
     
     public String toString(){
@@ -35,9 +29,7 @@ public final class LeafNode implements Node{
     @Override
     //returns a list containing the LeafNode's Token as its single element.
 	public final List<Token> toList() {
-    	List<Token> list = new LinkedList<Token>();
-    	list.add(token);
-    	return list;
+    	return new ArrayList<Token>(Arrays.asList(token));
 	}
 
 }

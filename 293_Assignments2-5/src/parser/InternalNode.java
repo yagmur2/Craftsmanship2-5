@@ -4,6 +4,10 @@ import java.util.*;
 public final class InternalNode implements Node{
 
     private final List<Node> children;
+    
+    //Stores previous computations of toList and toString so it is not re-calculated.
+    private List<Token> childList = null;
+    private String childString = null;
 
     //Getter method for children of the InternalNode.
     public List<Node> getChildren(){
@@ -17,10 +21,7 @@ public final class InternalNode implements Node{
 
     //Builds a new InternalNode with the given children. Throws a NullPointerException if List is null.
     public static final InternalNode build(List<Node> children){
-        if (children == null){
-            throw new NullPointerException("List<Node> is null in method newInternal");
-        }
-        //else
+        Objects.requireNonNull(children, "Null children value in InternalNode builder");
         return new InternalNode(children);
     }
 
@@ -28,18 +29,18 @@ public final class InternalNode implements Node{
     //Returns concatenation of the children's lists.
     public final List<Token> toList(){
     	
-    	List<Token> list = new LinkedList<Token>();
+    	if (childList == null) {
+    		List<Token> list = new LinkedList<Token>();
     	
-    	for(Node item : children) {
-    		for(Token token : item.toList()) {
-    			list.add(token);
+    		for(Node item : children) {
+    			for(Token token : item.toList()) {
+    				list.add(token);
+    			}
     		}
+    		childList = list;
     	}
-    	return list;
+    	return childList;
     }
-
-    //stores previous computation, so it only happens once
-    private String childString = null;
     
     @Override
     //Returns the string representation of the node's children
