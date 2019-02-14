@@ -1,8 +1,37 @@
 package parser;
 import java.util.*;
+import java.util.stream.*;
 
 public final class InternalNode implements Node{
 
+	public static class Builder{
+		
+		private List<Node> children = new ArrayList<>();
+		
+		//Appends a new Node to the children
+		public boolean addChild(Node node) {
+			return this.children.add(node);
+		}
+		
+		//Removes all childless Nodes from children, and if this results in only one internal node,
+		//replace it with its children
+		public Builder simplify() {
+			this.children = this.children.stream()
+				.filter(child -> child.isFruitful())
+				.collect(Collectors.toList());
+			//If the children list has a single internal node left, replace it with its children
+			if (children.size() == 1) {
+				children = children.get(0).getChildren();
+			}
+			return this;
+		}   
+		
+		//Returns new InternalNode with the Builder's simplified children list
+		public InternalNode build() {
+			return InternalNode.build(this.simplify().children);	
+		}
+	}
+	
     private final List<Node> children;
     
     //Stores previous computations of toList and toString so it is not re-calculated.
@@ -10,7 +39,7 @@ public final class InternalNode implements Node{
     private String childString = null;
 
     //Getter method for children of the InternalNode.
-    public List<Node> getChildren(){
+    public List<Node> getChildren() {
         return new ArrayList<Node>(children);
     }
 
@@ -49,11 +78,15 @@ public final class InternalNode implements Node{
     	if (childString != null) { //in the case the string has been computed before
 	    	for (Node item : children) {
 	    		childString += "[" + (item.toString()) + "[";
-	    	}
+	    		}
 	    	return childString;
+	    	} 
+    	return childString;
     	}
-    	else 
-    		return childString;
-    	}
+
+	@Override
+	public boolean isFruitful() {
+		return (!children.isEmpty());
+	}
     
-    }
+}
