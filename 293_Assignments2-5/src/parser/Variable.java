@@ -13,8 +13,6 @@ public final class Variable extends AbstractToken{
         this.representation = representation;
     }
 
-
-
     //FUNCTIONS
     @Override
     public TerminalSymbol getType() {

@@ -4,24 +4,20 @@ import java.util.Objects;
 
 public final class Connector extends AbstractToken{
 	
-    //VARIABLES
     private static  Cache<TerminalSymbol, Connector> cache = new Cache<TerminalSymbol, Connector>();
     TerminalSymbol type ;
 
-    
     //private constructor
     private Connector(TerminalSymbol type){
         this.type = type;
     }
-
     
-    //FUNCTIONS
+    //Returns the enum type
     @Override
     public TerminalSymbol getType() {
         return this.type;
     }
 
-    
     //build function for connectors
     public static final Connector build(TerminalSymbol connectorType){
     	
@@ -33,7 +29,6 @@ public final class Connector extends AbstractToken{
     	throw new IllegalArgumentException("Illegal connector type to build");
     }
 
-    
     //helper function detect if the connector type is legal or not
     private static boolean LegalConnectorType(TerminalSymbol type){
     	
@@ -43,11 +38,11 @@ public final class Connector extends AbstractToken{
     	}
     	return false;
     }
-
-
-    //over ride to string function
+    
+    //override java's toString function
     @Override
     public String toString(){
     		return Objects.requireNonNull(TerminalSymbol.TerminalStringTable.get(this.getType()), "The Conector String not found in the table");
         }
+    
 }

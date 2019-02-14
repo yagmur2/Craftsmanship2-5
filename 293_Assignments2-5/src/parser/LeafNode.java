@@ -32,6 +32,7 @@ public final class LeafNode implements Node{
     	return new ArrayList<Token>(Arrays.asList(token));
 	}
 
+    //LeafNodes have no children
 	@Override
 	public List<Node> getChildren() {
 		return null;

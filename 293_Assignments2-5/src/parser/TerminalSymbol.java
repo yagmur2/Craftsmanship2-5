@@ -6,22 +6,22 @@ public enum TerminalSymbol implements Symbol {
     // 7 different types
     VARIABLE, PLUS, MINUS, TIMES, DIVIDE, OPEN, CLOSE;
 
-	//Enum 
+	//EnumMap for TerminalSymbols as Strings 
 	static EnumMap<TerminalSymbol, String> TerminalStringTable = new EnumMap<>(TerminalSymbol.class);
+	
 	static {
 		TerminalStringTable.put(PLUS, "+");
 		TerminalStringTable.put(MINUS, "-");
 		TerminalStringTable.put(TIMES, "*");
 		TerminalStringTable.put(DIVIDE, "/");
 		TerminalStringTable.put(OPEN, "(");
-		TerminalStringTable.put(CLOSE, ")");
-		
+		TerminalStringTable.put(CLOSE, ")");	
 	}
+	
 	@Override
 	public ParseState parse(List<Token> input) {
 	
-		if (!input.isEmpty()) {
-			
+		if (!input.isEmpty()) {	
 			//the first input token and the remainder (rest of the list)
 			Token firstToken = input.get(0);
 			List<Token> remainder = input.subList(1, input.size());

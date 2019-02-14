@@ -37,7 +37,8 @@ public final class InternalNode implements Node{
     //Stores previous computations of toList and toString so it is not re-calculated.
     private List<Token> childList = null;
     private String childString = null;
-
+    
+    @Override
     //Getter method for children of the InternalNode.
     public List<Node> getChildren() {
         return new ArrayList<Node>(children);
@@ -50,23 +51,19 @@ public final class InternalNode implements Node{
 
     //Builds a new InternalNode with the given children. Throws a NullPointerException if List is null.
     public static final InternalNode build(List<Node> children){
-        Objects.requireNonNull(children, "Null children value in InternalNode builder");
+    	Objects.requireNonNull(children, "Null children value in InternalNode builder");
         return new InternalNode(children);
     }
-
+  
     @Override
     //Returns concatenation of the children's lists.
-    public final List<Token> toList(){
-    	
+    public final List<Token> toList(){	
     	if (childList == null) {
-    		List<Token> list = new LinkedList<Token>();
+    		childList = new LinkedList<Token>();
     	
     		for(Node item : children) {
-    			for(Token token : item.toList()) {
-    				list.add(token);
-    			}
+    			childList.addAll(item.toList());
     		}
-    		childList = list;
     	}
     	return childList;
     }
@@ -74,7 +71,6 @@ public final class InternalNode implements Node{
     @Override
     //Returns the string representation of the node's children
     public String toString(){
-    	
     	if (childString != null) { //in the case the string has been computed before
 	    	for (Node item : children) {
 	    		childString += "[" + (item.toString()) + "[";
@@ -84,9 +80,10 @@ public final class InternalNode implements Node{
     	return childString;
     	}
 
+    //Returns true if the InternalNode has children
 	@Override
 	public boolean isFruitful() {
-		return (!children.isEmpty());
+		return (!this.getChildren().isEmpty());
 	}
     
 }
