@@ -2,6 +2,8 @@ package parser;
 
 import java.util.*;
 
+import parser.InternalNode.Builder;
+
 final class SymbolSequence {
 	
 	private final List<Symbol> production;
@@ -30,31 +32,29 @@ final class SymbolSequence {
 		return production.toString();
 		}
 	
-	/*Returns a successful ParseState if all the symbols in production can be matched with
-	* the input; throws NullPointerException if input is null; FAILURE otherwise.
-	*/
+	//Returns a successful ParseState if all the symbols in production can be matched with
+	// the input; throws NullPointerException if input is null; FAILURE otherwise.
 	public ParseState match(List<Token> input) {
 	
 		Objects.requireNonNull(input, "Null input in match method, should be List<Token>");
 		
+		Builder childListBuilder = new Builder();
 		List<Token> remainder = input;
-		List<Node> children = new ArrayList<Node>();
 		
 		for(Symbol symbol : this.production) {
-			
+
+			//node currently being parsed
 			ParseState current = symbol.parse(remainder);
 			
-			//if the parse is successful, adds node to children list and adjusts remainder
+			//if the parse is successful, adds current node to children list and adjusts remainder
 			if(current.isSuccess()) {
-				children.add(current.getNode());
+				childListBuilder.addChild(current.getNode());
 				remainder = current.getRemainder();
 			}
 			//If the parse is unsuccessful, returns FAILURE
-			else {
-				return current;
-				}
+			else return current;
 			}
-		return ParseState.build(InternalNode.build(children), remainder);
+		return ParseState.build(childListBuilder.simplify().build(), remainder);
 		}
 	
 }

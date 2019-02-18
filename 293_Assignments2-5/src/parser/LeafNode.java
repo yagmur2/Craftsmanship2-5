@@ -32,4 +32,16 @@ public final class LeafNode implements Node{
     	return new ArrayList<Token>(Arrays.asList(token));
 	}
 
+    //LeafNodes have no children
+	@Override
+	public List<Node> getChildren() {
+		return null;
+	}
+
+	//Always returns true as the node should always be a leaf
+	@Override
+	public boolean isFruitful() {
+		return true;
+	}
+
 }

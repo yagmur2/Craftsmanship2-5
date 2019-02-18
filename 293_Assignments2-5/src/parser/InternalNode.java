@@ -1,16 +1,46 @@
 package parser;
 import java.util.*;
+import java.util.stream.*;
 
 public final class InternalNode implements Node{
 
+	public static class Builder{
+		
+		private List<Node> children = new ArrayList<>();
+		
+		//Appends a new Node to the children
+		public boolean addChild(Node node) {
+			return this.children.add(node);
+		}
+		
+		//Removes all childless Nodes from children, and if this results in only one internal node,
+		//replace it with its children
+		public Builder simplify() {
+			this.children = this.children.stream()
+				.filter(child -> child.isFruitful())
+				.collect(Collectors.toList());
+			//If the children list has a single internal node left, replace it with its children
+			if (children.size() == 1) {
+				children = children.get(0).getChildren();
+			}
+			return this;
+		}   
+		
+		//Returns new InternalNode with the Builder's simplified children list
+		public InternalNode build() {
+			return InternalNode.build(this.simplify().children);	
+		}
+	}
+	
     private final List<Node> children;
     
     //Stores previous computations of toList and toString so it is not re-calculated.
     private List<Token> childList = null;
     private String childString = null;
-
+    
+    @Override
     //Getter method for children of the InternalNode.
-    public List<Node> getChildren(){
+    public List<Node> getChildren() {
         return new ArrayList<Node>(children);
     }
 
@@ -21,23 +51,19 @@ public final class InternalNode implements Node{
 
     //Builds a new InternalNode with the given children. Throws a NullPointerException if List is null.
     public static final InternalNode build(List<Node> children){
-        Objects.requireNonNull(children, "Null children value in InternalNode builder");
+    	Objects.requireNonNull(children, "Null children value in InternalNode builder");
         return new InternalNode(children);
     }
-
+  
     @Override
     //Returns concatenation of the children's lists.
-    public final List<Token> toList(){
-    	
+    public final List<Token> toList(){	
     	if (childList == null) {
-    		List<Token> list = new LinkedList<Token>();
+    		childList = new LinkedList<Token>();
     	
     		for(Node item : children) {
-    			for(Token token : item.toList()) {
-    				list.add(token);
-    			}
+    			childList.addAll(item.toList());
     		}
-    		childList = list;
     	}
     	return childList;
     }
@@ -45,15 +71,19 @@ public final class InternalNode implements Node{
     @Override
     //Returns the string representation of the node's children
     public String toString(){
-    	
     	if (childString != null) { //in the case the string has been computed before
 	    	for (Node item : children) {
 	    		childString += "[" + (item.toString()) + "[";
-	    	}
+	    		}
 	    	return childString;
+	    	} 
+    	return childString;
     	}
-    	else 
-    		return childString;
-    	}
+
+    //Returns true if the InternalNode has children
+	@Override
+	public boolean isFruitful() {
+		return (!this.getChildren().isEmpty());
+	}
     
-    }
+}
