@@ -2,52 +2,33 @@
 Assignments #2-5 (cumulative) for EECS 293, Software Craftsmanship.
 
 
-Unzip .java files and compile like any other java program.
+Unzip .java files and compile like any other java program.  
 ====================Changelist=======================
 
 Everywhere:  
-HW2-Some spacing fixes  
-HW2-Removed TODO statements  
-HW3-NullPointerExceptions replaced with Objects.requireNonNull()  
+HW4-Some spacing fixes  
 
-Cache:  
-HW2-Now checks null  
-HW2-Now uses computeIfAbsent()  
-
-Variable:  
-HW2-Variable TerminalSymbol no longer stored for every instance  
+Cache:   
+HW4-ComputeIfAbsent() uses Objects.requireNonNull to take up less space  
 
 Connector:  
-HW2-Removed unneccessary SecurityException  
-HW2-Complexity of LegalConnectorType() reduced from 5 to 2  
-HW2-Complexity of toString() reduced using a Table, added in TerminalSymbol  
-
-Node:  
-HW2-Removed toString(), it is a java method  
-
-LeafNode:  
-HW2-Fixed error message in build(), previously used wrong method name  
-HW2-toList() simplified to one line  
+HW4-TerminalSymbol.values() now includes VARIABLE condition  
+HW4-SymbolSequence.EPSILON now less redundant, uses build()  
 
 InternalNode:  
-HW2-toList() now uses global variable childList, to avoid calculating more than once  
-HW2-toList() now uses addAll()  
-HW2-Removed comment "//else"  
-HW2-Class fields declared at top, were previously above methods they were used in  
-HW2-Fixed error message in build(), previously used wrong method name  
+HW4-replaced -> with :: in stream  
 
-TerminalSymbol:  
-HW3-parse() logic reworked, removed foreach loop and used 'this' instead of TerminalSymbol.getType()  
+LeafNode:  
+HW4-removed toList() re-initialization, now only uses asList()  
+
+Builder:  
+HW4-simplify() now checks that first child is not null   
 
 SymbolSequence:  
-HW3-Changed final variables from uppercase to lowercase (PRODUCTION -> production)  
-HW3-Made exception messages unique to see which build() method was the problem  
-HW3-symbol.parse(remainder) turned into local variable "current"  
+HW4-deleted simplify() call in match() so that Builder handles that instead  
 
 NonTerminalSymbol:  
-HW3-Map is no longer anonymous class  
-HW3-Some static block cleanup  
-HW3-Altered parse() method logic  
-HW3-Removed repeated code in ParseInput()  
+HW4-Implemented second simplify piece of productions  
+HW4-Added missing mappings*  
 
 =================================================
