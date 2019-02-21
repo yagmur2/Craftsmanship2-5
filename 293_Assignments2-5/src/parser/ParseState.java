@@ -1,9 +1,10 @@
 package parser;
-// import tokens if needed
+
 import java.util.List;
+import java.util.Objects;
 
 final class ParseState {
-    //Variables
+
     private final boolean success;
     private final Node node ;
     private final List<Token> remainder  ;
@@ -32,13 +33,7 @@ final class ParseState {
     }
  
     public static final ParseState build(Node node, List<Token> givenRemainder){
-        if((node!=null) && (givenRemainder != null)){
-            //do procedure here
-            return new ParseState(true, node, givenRemainder);
+            return new ParseState(true, Objects.requireNonNull(node, "Node is null in ParseState build()"), Objects.requireNonNull(givenRemainder, "Remainder is null in ParseState build()"));
         }
-        else
-            throw  new NullPointerException("Either remainder or node input is NULL");
-    }
-
 }
 

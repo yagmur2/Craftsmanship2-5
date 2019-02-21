@@ -2,37 +2,38 @@ package parser;
 
 import java.util.Objects;
 
-public final class Variable extends AbstractToken{
+public final class Variable extends AbstractToken {
 
-    //VARIABLES
-    private final String representation;
-    private static  Cache<String, Variable> cache = new Cache<String, Variable>();
+	private final String representation;
+	private static Cache<String, Variable> cache = new Cache<String, Variable>();
 
-    //private constructor
-    private Variable(String representation){
-        this.representation = representation;
-    }
+	//Constructor
+	private Variable(String representation) {
+		this.representation = representation;
+	}
 
-    //FUNCTIONS
-    @Override
-    public TerminalSymbol getType() {
-        return TerminalSymbol.VARIABLE;
-    }
-    
-    public final String getRepresentation(){
-        return representation;
-    }
+	// FUNCTIONS
+	@Override
+	public TerminalSymbol getType() {
+		return TerminalSymbol.VARIABLE;
+	}
 
-    //build function for Variables.
-    public static final Variable build(String representation){
-    	Objects.requireNonNull(representation, "Variable representation is null");
-        return cache.get(representation,  Variable::new);
-    }
+	public final String getRepresentation() {
+		return representation;
+	}
 
-    @Override
-    public String toString(){
-        return getRepresentation();
-    }
+	// build function for Variables.
+	public static final Variable build(String representation) {
+		return cache.get(Objects.requireNonNull(representation, "Variable representation is null"), Variable::new);
+	}
 
+	@Override
+	public String toString() {
+		return getRepresentation();
+	}
 
+	@Override
+	public boolean isOperator() {
+		return false;
+	}
 }
