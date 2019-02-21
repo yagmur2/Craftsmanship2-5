@@ -12,5 +12,11 @@ public interface Node {
     
     //Returns true if the node is an internal node with 1+ children or if it is a leaf
     boolean isFruitful();
-    
+
+    boolean isOperator();
+
+    boolean isStartedByOpeartor();
+
+    Optional<Node> firstChild();
+    boolean isSingleLeafParent();
 }

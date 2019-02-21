@@ -20,10 +20,13 @@ public final class InternalNode implements Node{
 				.filter(child -> child.isFruitful())
 				.collect(Collectors.toList());
 			//If the children list has a single internal node left, replace it with its children
-			if (children.size() == 1) {
+			if (children.size() == 1 &&  children.get(0).getChildren()!=null) {
 				children = children.get(0).getChildren();
 			}
 			return this;
+
+
+			//
 		}   
 		
 		//Returns new InternalNode with the Builder's simplified children list
@@ -85,5 +88,32 @@ public final class InternalNode implements Node{
 	public boolean isFruitful() {
 		return (!this.getChildren().isEmpty());
 	}
-    
+
+
+	@Override
+	public boolean isOperator() {
+		return false;
+	}
+
+	@Override
+	public boolean isStartedByOpeartor() {
+		return Objects.requireNonNull(children).get(0).isOperator();
+	}
+
+	@Override
+	public Optional<Node> firstChild() {
+		if(this.isFruitful()){
+			return Optional.of(children.get(0));
+		}else {
+			return Optional.empty();
+		}
+	}
+
+
+	@Override
+	public boolean isSingleLeafParent() {
+
+    	return children.size() == 1 && children.get(0).getChildren() == null;
+
+	}
 }

@@ -44,4 +44,23 @@ public final class LeafNode implements Node{
 		return true;
 	}
 
+    @Override
+    public boolean isOperator() {
+        return token.isOperator();
+    }
+
+    @Override
+    public boolean isStartedByOpeartor() {
+        return false;
+    }
+
+    @Override
+    public Optional<Node> firstChild() {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean isSingleLeafParent() {
+        return false;
+    }
 }

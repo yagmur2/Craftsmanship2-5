@@ -44,5 +44,9 @@ public final class Connector extends AbstractToken{
     public String toString(){
     		return Objects.requireNonNull(TerminalSymbol.TerminalStringTable.get(this.getType()), "The Conector String not found in the table");
         }
-    
+
+    @Override
+    public boolean isOperator() {
+        return matches(TerminalSymbol.MINUS) ||matches(TerminalSymbol.PLUS)||matches(TerminalSymbol.TIMES) ||matches(TerminalSymbol.DIVIDE);
+    }
 }
