@@ -5,14 +5,12 @@ import java.util.*;
 public class Testing {
 	public static void main(String args[]) {
 
-		List<Token> list = new ArrayList<>();
-		list.add(Variable.build("a"));
-
-		list.add(Connector.build(TerminalSymbol.PLUS));
-		list.add(Variable.build("b"));
-		list.add(Connector.build(TerminalSymbol.MINUS));
-		list.add(Variable.build("c"));
-
-		System.out.println(NonTerminalSymbol.parseInput(list));
+		String string;
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter expression:");
+		string = scan.nextLine();
+		scan.close();
+		String[] uiInput = string.split(" ");
+		ExpressionUI.main(uiInput);
 	}
 }

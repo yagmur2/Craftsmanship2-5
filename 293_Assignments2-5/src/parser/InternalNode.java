@@ -43,11 +43,11 @@ public final class InternalNode implements Node {
 		// starting with operators or having a single leaf as a child
 		private List<Node> simplifyChildren(List<Node> children) {
 			List<Node> newChildren = new ArrayList<Node>();
-			for (int i = 0; i < children.size() - 1; i++) {
+			for (int i = 0; i < children.size(); i++) {
 				Node tempNode = children.get(i);
 				if (tempNode.isSingleLeafParent()) {
 					newChildren.add(tempNode.firstChild().get());
-				}else if (tempNode.isStartedByOperator() && (previousNotOperator(children, i))) {
+				}else if (replaceableOperator(tempNode, children, i)) {
 					newChildren.addAll(tempNode.getChildren());
 				}else {
 				newChildren.add(tempNode);
@@ -57,8 +57,8 @@ public final class InternalNode implements Node {
 		}
 		
 		//helper method, checks if the previous node exists and is not an operator
-		private boolean previousNotOperator(List<Node> children, int index) {
-			return index == 0 || !children.get(index - 1).isOperator();
+		private boolean replaceableOperator(Node node, List<Node> children, int index) {
+			return (node.isStartedByOperator() && (index == 0 || !children.get(index - 1).isOperator()));
 		}
 	}
 

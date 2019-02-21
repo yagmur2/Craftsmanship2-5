@@ -7,8 +7,12 @@ public class ExpressionUI {
 	public static void main(String[] args) {
 		List<Token> list = toToken(args);
 		Optional<Node> result = NonTerminalSymbol.parseInput(list);
-		System.out.println("input list: " + list);
-		System.out.println("result: " + result.get().toString());
+		if (result.isPresent()) {
+			System.out.println("result: " + result.get().toString());
+		}
+		else {
+		System.out.println("Invalid input.");
+		}
 	}
 
 	private static HashMap<String, TerminalSymbol> termMap;
