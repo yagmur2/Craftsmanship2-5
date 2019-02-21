@@ -7,9 +7,7 @@ public final class InternalNode implements Node {
 
 	public static class Builder {
 		
-		// Variables for the children list and the children of its first child
 		private List<Node> children = new ArrayList<>();
-		private List<Node> firstChildChildren = children.get(0).getChildren();
 
 		// Appends a new Node to the children
 		public boolean addChild(Node node) {
@@ -23,10 +21,10 @@ public final class InternalNode implements Node {
 			this.children = this.children.stream()
 					.filter(Node::isFruitful)
 					.collect(Collectors.toList());
-			if (singleNonNullNode(children)) {
-				children = firstChildChildren;
-			}
 			children = simplifyChildren(children);
+			if (singleNonNullNode(children)) {
+				children = children.get(0).getChildren();
+			}
 			return this;
 		}
 
@@ -38,7 +36,7 @@ public final class InternalNode implements Node {
 		// helper method, checks if there is a single internal node
 		// left with non-null children
 		private boolean singleNonNullNode(List<Node> children) {
-			return children.size() == 1 && firstChildChildren != null;
+			return children.size() == 1 && children.get(0).getChildren() != null;
 		}
 
 		// Helper method, simplifies the children list by replacing internal nodes with children
@@ -145,6 +143,6 @@ public final class InternalNode implements Node {
 
 	@Override
 	public boolean isSingleLeafParent() {
-		return children.size() == 1 && children.get(0).getChildren() == null;
+		return children.size() == 1 && firstChild().get() == null;
 	}
 }

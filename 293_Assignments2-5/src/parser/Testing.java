@@ -7,12 +7,12 @@ public class Testing {
 
 		List<Token> list = new ArrayList<>();
 		list.add(Variable.build("a"));
-		/*
-		 * list.add(Connector.build(TerminalSymbol.PLUS));
-		 * list.add(Variable.build("b"));
-		 * list.add(Connector.build(TerminalSymbol.MINUS));
-		 * list.add(Variable.build("c"));
-		 */
+
+		list.add(Connector.build(TerminalSymbol.PLUS));
+		list.add(Variable.build("b"));
+		list.add(Connector.build(TerminalSymbol.MINUS));
+		list.add(Variable.build("c"));
+
 		System.out.println(NonTerminalSymbol.parseInput(list));
 	}
 }
